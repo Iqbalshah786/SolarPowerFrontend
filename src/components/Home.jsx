@@ -6,6 +6,7 @@ function App() {
   const [sheetId, setSheetId] = useState("");
   const [metadata, setMetadata] = useState(null);
   const [error, setError] = useState(null);
+  const [noRecordFound, setNoRecordFound] = useState(false);
 
   const handleInputChange = (e) => {
     setSheetId(e.target.value);
@@ -14,15 +15,16 @@ function App() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setError(null);
+    setMetadata(null);
+    setNoRecordFound(false);
 
     try {
       const response = await axios.get(`/api/sheetmetadata/${sheetId}`);
-      if (!response) {
-        throw new Error("No response from server");
+      if (response.data) {
+        setMetadata(response.data);
+      } else {
+        setNoRecordFound(true);
       }
-      const data = response.data;
-
-      setMetadata(data);
     } catch (error) {
       setError(error);
     }
@@ -42,12 +44,15 @@ function App() {
           Get Sheet Metadata
         </button>
       </form>
-      {error && (
+      {noRecordFound && <p className="text-red-500">No record found</p>}
+      {error && <p className="text-red-500">Error: {error.message}</p>}
+      {metadata && <RecordTable metadata={metadata} />}
+      {/* {error && (
         <p>
           Error : {error} <br /> {error.message}
         </p>
       )}
-      <RecordTable metadata={metadata} />
+      <RecordTable metadata={metadata} /> */}
     </div>
   );
 }
