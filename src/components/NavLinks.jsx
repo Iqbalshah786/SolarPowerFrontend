@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import { links } from "../constants";
 
 const NavLinks = () => {
-  console.log(links);
   return (
     <nav>
       <ul className="flex items-center justify-center gap-4 flex-shrink-0">

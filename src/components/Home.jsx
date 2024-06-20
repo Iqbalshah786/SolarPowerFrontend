@@ -1,25 +1,53 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import RecordTable from "./RecordTable.jsx";
 
 function App() {
-  const [data, setData] = useState([]);
+  const [sheetId, setSheetId] = useState("");
+  const [metadata, setMetadata] = useState(null);
+  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get("api/sheetmetadata/6672e92e2905b8f045e34543")
-      .then((response) => {
-        setData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const handleInputChange = (e) => {
+    setSheetId(e.target.value);
+  };
 
-  // console.log(data);
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    try {
+      const response = await axios.get(`/api/sheetmetadata/${sheetId}`);
+      if (!response) {
+        throw new Error("No response from server");
+      }
+      const data = response.data;
+
+      setMetadata(data);
+    } catch (error) {
+      setError(error);
+    }
+  };
 
   return (
-    <div>
-      <h1>Home</h1>
+    <div className="flex flex-col gap-4 p-4 justify-center items-center ">
+      <form onSubmit={handleFormSubmit}>
+        <input
+          type="text"
+          value={sheetId}
+          onChange={handleInputChange}
+          placeholder="Enter sheet ID"
+          className="border-2 border-gray-300 p-4 mr-4"
+        />
+        <button type="submit" className="border-2 bg-blue-500 text-white p-4">
+          Get Sheet Metadata
+        </button>
+      </form>
+      {error && (
+        <p>
+          Error : {error} <br /> {error.message}
+        </p>
+      )}
+      <RecordTable metadata={metadata} />
     </div>
   );
 }
