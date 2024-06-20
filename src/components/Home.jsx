@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-import "./App.css";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
@@ -17,11 +15,11 @@ function App() {
       });
   }, []);
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <div>
-      <h1 className=" text-red-700">hello</h1>
+      <h1>Home</h1>
     </div>
   );
 }
