@@ -1,13 +1,18 @@
 import { colors } from "../constants/index.js";
 
-const getChartData = (sheetData, selectedCountries) => {
+const getChartData = (sheetData, selectedCountries, startYear, endYear) => {
   const labels = sheetData.years.split(",");
+
+  const startIndex = labels.indexOf(startYear);
+  const endIndex = labels.indexOf(endYear);
+
+  const filteredLabels = labels.slice(startIndex, endIndex + 1);
 
   const numDatasets = sheetData.datasets.length;
   const numColors = colors.length;
 
   if (numDatasets > numColors) {
-    console.warn(
+    alert.warn(
       `Warning: Not enough colors (${numColors}) for datasets (${numDatasets}). Some colors will be reused.`
     );
   }
@@ -18,12 +23,12 @@ const getChartData = (sheetData, selectedCountries) => {
     )
     .map((dataset, index) => ({
       label: dataset.label,
-      data: dataset.data,
+      data: dataset.data.slice(startIndex, endIndex + 1),
       fill: false,
       borderColor: colors[index % numColors],
     }));
 
-  return { labels, datasets };
+  return { labels: filteredLabels, datasets };
 };
 
 export { getChartData };

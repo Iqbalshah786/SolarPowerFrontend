@@ -1,3 +1,4 @@
+// src/View.js
 import { useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
@@ -32,10 +33,11 @@ const View = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedCountries, setSelectedCountries] = useState([]);
+  const [startYear, setStartYear] = useState("");
+  const [endYear, setEndYear] = useState("");
 
   const handleInputChange = (e) => {
     setSheetId(e.target.value);
-    console.log(sheetId);
   };
 
   const handleSubmit = async (e) => {
@@ -52,21 +54,20 @@ const View = () => {
         const data = response.data;
         setSheetData(data);
 
-        const initialCountries = data.datasets.slice(0, 10).map((dataset) => ({
+        const initialCountries = data.datasets.slice(0, 5).map((dataset) => ({
           value: dataset.label,
           label: dataset.label,
         }));
-        console.log(initialCountries);
-        console.log(sheetData);
+
         setSelectedCountries(initialCountries);
+        setStartYear(data.years.split(",")[0]);
+        setEndYear(data.years.split(",").slice(-1)[0]);
       } else {
         setSheetData([]);
         setNoRecordFound(true);
-        console.log("No record found");
       }
     } catch (error) {
       setError(error);
-      console.error("Error fetching data:", error);
     } finally {
       setIsLoading(false);
     }
@@ -76,8 +77,16 @@ const View = () => {
     setSelectedCountries(selectedOptions);
   };
 
+  const handleStartYearChange = (selectedOption) => {
+    setStartYear(selectedOption.value);
+  };
+
+  const handleEndYearChange = (selectedOption) => {
+    setEndYear(selectedOption.value);
+  };
+
   return (
-    <div className="flex flex-col gap-4 p-4 justify-center items-center ">
+    <div className="flex flex-col gap-4 p-4 justify-center items-center">
       <form onSubmit={handleSubmit}>
         <input
           type="text"
@@ -93,7 +102,7 @@ const View = () => {
       </form>
 
       {isLoading && (
-        <div className="mt-4 ">
+        <div className="mt-4">
           <Circles
             height="80"
             width="80"
@@ -119,12 +128,40 @@ const View = () => {
             value={selectedCountries}
             onChange={handleCountryChange}
             className="w-full max-w-xl mt-4"
-          ></Select>
-
-          <Line
-            data={getChartData(sheetData, selectedCountries)}
-            className="w-full max-w-4xl mt-4"
           />
+
+          <div className="flex gap-4 w-full max-w-xl mt-4">
+            <Select
+              options={sheetData.years.split(",").map((year) => ({
+                value: year,
+                label: year,
+              }))}
+              value={{ value: startYear, label: startYear }}
+              onChange={handleStartYearChange}
+              className="w-full"
+            />
+            <Select
+              options={sheetData.years.split(",").map((year) => ({
+                value: year,
+                label: year,
+              }))}
+              value={{ value: endYear, label: endYear }}
+              onChange={handleEndYearChange}
+              className="w-full"
+            />
+          </div>
+
+          <div className="w-1/2">
+            <Line
+              data={getChartData(
+                sheetData,
+                selectedCountries,
+                startYear,
+                endYear
+              )}
+              className="h-1/4 max-w-4xl mt-4"
+            />
+          </div>
         </>
       )}
     </div>
