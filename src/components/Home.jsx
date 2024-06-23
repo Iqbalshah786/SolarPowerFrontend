@@ -19,7 +19,7 @@ function App() {
     setNoRecordFound(false);
 
     try {
-      const response = await axios.get(`/api/sheetmetadata/${sheetId}`);
+      const response = await axios.get(`https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/${sheetId}`);
       if (response.data) {
         setMetadata(response.data);
       } else {
