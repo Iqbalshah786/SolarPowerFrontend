@@ -48,7 +48,7 @@ const View = () => {
 
     try {
       const response = await axios.post(
-        `/api/sheetmetadata/ReadExcelData/${sheetId}`
+        `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/ReadExcelData/${sheetId}`
       );
       if (response.data && Object.keys(response.data).length > 0) {
         const data = response.data;
