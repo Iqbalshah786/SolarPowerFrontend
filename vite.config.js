@@ -5,8 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     proxy: {
-      "/api/sheetmetadata": "http://localhost:5000",
-      "api/sheetmetadata/ReadDataByCountries": "http://localhost:5000",
+      "/api/sheetmetadata": "https://solarpower-backend-2f0d59f7581f.herokuapp.com",
+      "api/sheetmetadata/ReadDataByCountries": "https://solarpower-backend-2f0d59f7581f.herokuapp.com",
     },
   },
   plugins: [react()],
