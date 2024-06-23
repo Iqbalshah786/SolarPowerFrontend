@@ -48,7 +48,7 @@ const View = () => {
 
     try {
       const response = await axios.post(
-        `/api/sheetmetadata/ReadDataByCountries/${sheetId}`
+        `/api/sheetmetadata/ReadExcelData/${sheetId}`
       );
       if (response.data && Object.keys(response.data).length > 0) {
         const data = response.data;
