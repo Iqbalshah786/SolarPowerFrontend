@@ -18,7 +18,7 @@ function Document() {
 
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/DocumentDeepSearch/GetAllDocuments`
+        `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/DocumentDeepSearch/GetAllDocuments`
       );
       if (response.data) {
         const data = response.data;

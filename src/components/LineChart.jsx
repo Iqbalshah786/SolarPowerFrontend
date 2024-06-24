@@ -42,7 +42,7 @@ const LineChart = ({ id }) => {
 
       try {
         const response = await axios.post(
-          `http://localhost:5000/api/sheetmetadata/ReadExcelData/${id}`
+          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/ReadExcelData/${id}`
         );
         if (response.data && Object.keys(response.data).length > 0) {
           const data = response.data;

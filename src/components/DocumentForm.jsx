@@ -22,7 +22,7 @@ const DocumentForm = ({ onFormSubmit }) => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/DocumentDeepSearch/CreateDocumentData",
+        "https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/DocumentDeepSearch/CreateDocumentData",
         data
       );
       setResponse(res.data);
