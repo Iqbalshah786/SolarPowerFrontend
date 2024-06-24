@@ -18,7 +18,7 @@ function App() {
 
       try {
         const response = await axios.get(
-          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/GetAllSheetMetadata`
+          `http://localhost:5000/api/sheetmetadata/GetAllSheetMetadata`
         );
         if (response.data) {
           const data = response.data;

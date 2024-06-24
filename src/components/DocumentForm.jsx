@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
 
-const DocumentForm = () => {
+const DocumentForm = ({ onFormSubmit }) => {
   const [document, setDocument] = useState("");
   const [tags, setTags] = useState("");
   const [comments, setComments] = useState("");
@@ -22,10 +22,11 @@ const DocumentForm = () => {
 
     try {
       const res = await axios.post(
-        "https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/DocumentDeepSearch/CreateDocumentData",
+        "http://localhost:5000/api/DocumentDeepSearch/CreateDocumentData",
         data
       );
       setResponse(res.data);
+      onFormSubmit(); // Trigger the callback to reload data
     } catch (error) {
       console.error("Error submitting form:", error);
     } finally {
@@ -34,31 +35,31 @@ const DocumentForm = () => {
   };
 
   return (
-    <div className="flex flex-col items-center mt-10  w-1/2">
+    <div className="flex flex-col items-center mt-10 w-1/2">
       <h2 className="text-2xl mb-6">Add Document</h2>
       <form onSubmit={handleSubmit} className=" w-full ">
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Document:
+            Comments:
           </label>
           <textarea
-            className="shadow appearance-none  h-16 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={document}
-            onChange={(e) => setDocument(e.target.value)}
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
             required
           />
         </div>
         <div className="mb-4 flex gap-4 items-center">
           <label className="block text-gray-700 text-sm font-bold mb-2">
-            Comments:
+            Document:
           </label>
-          <input
-            type="text"
-            className="shadow appearance-none border rounded w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
+          <textarea
+            className="shadow appearance-none h-16 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={document}
+            onChange={(e) => setDocument(e.target.value)}
             required
           />
+
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Tags:
           </label>

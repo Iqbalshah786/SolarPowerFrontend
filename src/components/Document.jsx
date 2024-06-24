@@ -10,32 +10,36 @@ function Document() {
   const [noRecordFound, setNoRecordFound] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      setError(null);
-      setMetadata(null);
-      setNoRecordFound(false);
+  const fetchData = async () => {
+    setIsLoading(true);
+    setError(null);
+    setMetadata(null);
+    setNoRecordFound(false);
 
-      try {
-        const response = await axios.get(
-          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/DocumentDeepSearch/GetAllDocument`
-        );
-        if (response.data) {
-          const data = response.data;
-          setMetadata(data);
-        } else {
-          setNoRecordFound(true);
-        }
-      } catch (error) {
-        setError(error);
-      } finally {
-        setIsLoading(false);
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/DocumentDeepSearch/GetAllDocuments`
+      );
+      if (response.data) {
+        const data = response.data;
+        setMetadata(data);
+      } else {
+        setNoRecordFound(true);
       }
-    };
+    } catch (error) {
+      setError(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  const handleFormSubmit = () => {
+    fetchData();
+  };
 
   return (
     <div className="flex flex-col gap-4 p-4 justify-center items-center ">
@@ -54,8 +58,10 @@ function Document() {
       )}
       {noRecordFound && <p className="text-red-500">No record found</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
-      {metadata && <DocumentTable metadata={metadata} />}
-      {metadata && <DocumentForm />}
+      {metadata && (
+        <DocumentTable metadata={metadata} onFormSubmit={handleFormSubmit} />
+      )}
+      <DocumentForm onFormSubmit={handleFormSubmit} />
     </div>
   );
 }

@@ -12,6 +12,7 @@ const Upload = () => {
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+
   const handleTypeIdChange = (e) => {
     setTypeId(e.target.value);
   };
@@ -34,7 +35,7 @@ const Upload = () => {
 
     try {
       const response = await axios.post(
-        "https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/UploadExcel",
+        "/api/sheetmetadata/UploadExcel",
         formData,
         {
           headers: {
@@ -65,15 +66,19 @@ const Upload = () => {
         onSubmit={handleUpload}
         className="flex flex-col gap-4 items-center"
       >
-        <div className="flex gap-4  items-center">
-          <input
-            type="text"
-            placeholder="Enter Type ID"
+        <div className="flex gap-4 items-center">
+          <select
             value={typeId}
             onChange={handleTypeIdChange}
             className="border-2 border-gray-300 p-2 mb-4"
             disabled={isLoading}
-          />
+          >
+            <option value="" disabled>
+              Select Type
+            </option>
+            <option value="Capacity">Capacity</option>
+            <option value="Segment">Segment</option>
+          </select>
           <input
             type="file"
             onChange={handleFileChange}
@@ -82,7 +87,7 @@ const Upload = () => {
           />
         </div>
 
-        <div className="flex gap-4  items-center">
+        <div className="flex gap-4 items-center">
           <button
             type="submit"
             className="border-2 bg-blue-500 text-white p-2"
@@ -92,7 +97,7 @@ const Upload = () => {
           </button>
           <button
             onClick={handleClear}
-            className={`border-2 text-white p-2  ${isClearEnabled ? "bg-red-500" : "bg-gray-500"}`}
+            className={`border-2 text-white p-2 ${isClearEnabled ? "bg-red-500" : "bg-gray-500"}`}
             disabled={!isClearEnabled}
           >
             Clear
@@ -100,7 +105,7 @@ const Upload = () => {
         </div>
       </form>
       {isLoading && (
-        <div className="mt-4 ">
+        <div className="mt-4">
           <Circles
             height="80"
             width="80"
