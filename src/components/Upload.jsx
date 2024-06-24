@@ -35,7 +35,7 @@ const Upload = () => {
 
     try {
       const response = await axios.post(
-        "/api/sheetmetadata/UploadExcel",
+        "https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/UploadExcel",
         formData,
         {
           headers: {
