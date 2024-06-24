@@ -1,58 +1,59 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RecordTable from "./RecordTable.jsx";
+import { Circles } from "react-loader-spinner";
 
 function App() {
-  const [sheetId, setSheetId] = useState("");
   const [metadata, setMetadata] = useState(null);
   const [error, setError] = useState(null);
   const [noRecordFound, setNoRecordFound] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleInputChange = (e) => {
-    setSheetId(e.target.value);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+      setMetadata(null);
+      setNoRecordFound(false);
 
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    setError(null);
-    setMetadata(null);
-    setNoRecordFound(false);
-
-    try {
-      const response = await axios.get(`https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/${sheetId}`);
-      if (response.data) {
-        setMetadata(response.data);
-      } else {
-        setNoRecordFound(true);
+      try {
+        const response = await axios.get(
+          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/GetAllSheetMetadata`
+        );
+        if (response.data) {
+          const data = response.data;
+          setMetadata(data);
+        } else {
+          setNoRecordFound(true);
+        }
+      } catch (error) {
+        setError(error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      setError(error);
-    }
-  };
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="flex flex-col gap-4 p-4 justify-center items-center ">
-      <form onSubmit={handleFormSubmit}>
-        <input
-          type="text"
-          value={sheetId}
-          onChange={handleInputChange}
-          placeholder="Enter sheet ID"
-          className="border-2 border-gray-300 p-4 mr-4"
-        />
-        <button type="submit" className="border-2 bg-blue-500 text-white p-4">
-          Get Sheet Metadata
-        </button>
-      </form>
+      {isLoading && (
+        <div className="mt-4 ">
+          <Circles
+            height="80"
+            width="80"
+            color="#4fa94d"
+            ariaLabel="circles-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+            visible={true}
+          />
+        </div>
+      )}
       {noRecordFound && <p className="text-red-500">No record found</p>}
       {error && <p className="text-red-500">Error: {error.message}</p>}
       {metadata && <RecordTable metadata={metadata} />}
-      {/* {error && (
-        <p>
-          Error : {error} <br /> {error.message}
-        </p>
-      )}
-      <RecordTable metadata={metadata} /> */}
     </div>
   );
 }

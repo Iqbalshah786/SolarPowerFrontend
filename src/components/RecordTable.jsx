@@ -1,41 +1,43 @@
 import formatDate from "../utils/FormatDate.js";
 import formatSize from "../utils/FormateSize.js";
-// eslint-disable-next-line react/prop-types
-const RecordTable = ({ metadata }) => {
-  const { id, fileName, size, uploadDate, fileId } = metadata || {};
+import { Link } from "react-router-dom";
 
+const RecordTable = ({ metadata }) => {
   return metadata ? (
-    <div className="relative overflow-x-auto mt-10">
-      <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              ID
-            </th>
+    <div className="relative overflow-x-auto mt-10 rounded">
+      <table className="w-full  text-base  text-left  text-gray-200">
+        <thead className=" uppercase  dark:bg-gray-700 ">
+          <tr className="bg-[#374151]">
             <th scope="col" className="px-6 py-3">
               File Name
+            </th>
+            <th scope="col" className="px-6 py-3">
+              Upload date
             </th>
             <th scope="col" className="px-6 py-3">
               Size
             </th>
             <th scope="col" className="px-6 py-3">
-              Upload Date
-            </th>
-            <th scope="col" className="px-6 py-3">
-              File ID
+              View anaylsis
             </th>
           </tr>
         </thead>
         <tbody>
-          <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-            <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-              {id}
-            </td>
-            <td className="px-6 py-4">{fileName}</td>
-            <td className="px-6 py-4">{formatSize(size)}</td>
-            <td className="px-6 py-4">{formatDate(uploadDate)}</td>
-            <td className="px-6 py-4">{fileId}</td>
-          </tr>
+          {metadata.map((record) => (
+            <tr className="bg-[#1f2937] border-b   " key={record.id}>
+              <td className="px-6 py-4">{record.fileName}</td>
+              <td className="px-6 py-4">{formatSize(record.size)}</td>
+              <td className="px-6 py-4">{formatDate(record.uploadDate)}</td>
+
+              <td className="px-6 py-4">
+                <Link to={`/view/${record.id}/${record.typeID}`}>
+                  <button className="rounded py-1 px-2 text-base text-white bg-blue-500">
+                    View content
+                  </button>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

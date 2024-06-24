@@ -7,6 +7,7 @@ import Upload from "./components/Upload.jsx";
 import NotFound from "./components/NotFound.jsx";
 import Layout from "./components/Layout.jsx";
 import View from "./components/View.jsx";
+import Document from "./components/Document.jsx";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,10 +27,18 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/view",
+    path: "/view/:id/:content",
     element: (
       <Layout>
         <View />
+      </Layout>
+    ),
+  },
+  {
+    path: "/document",
+    element: (
+      <Layout>
+        <Document />
       </Layout>
     ),
   },

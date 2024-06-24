@@ -1,7 +1,7 @@
 export const links = [
   { link: "Home", url: "/" },
   { link: "Upload", url: "/upload" },
-  { link: "View", url: "/view" },
+  { link: "Document", url: "/document" },
 ];
 
 export const getChartData = (sheetData, selectedCountries) => {

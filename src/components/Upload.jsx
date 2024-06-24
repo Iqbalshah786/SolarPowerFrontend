@@ -4,6 +4,7 @@ import { Circles } from "react-loader-spinner";
 
 const Upload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
+  const [typeId, setTypeId] = useState("");
   const [uploadMessage, setUploadMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isClearEnabled, setIsClearEnabled] = useState(false);
@@ -11,19 +12,22 @@ const Upload = () => {
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
   };
+  const handleTypeIdChange = (e) => {
+    setTypeId(e.target.value);
+  };
 
   const handleUpload = async (e) => {
     e.preventDefault();
 
-    console.log("Upload button clicked");
     if (!selectedFile) {
       setUploadMessage("Please select a file to upload.");
-      // console.log("No file selected");
+      alert("No file selected");
       return;
     }
 
     const formData = new FormData();
     formData.append("file", selectedFile);
+    formData.append("typeId", typeId);
 
     setIsLoading(true);
     setUploadMessage("");
@@ -39,39 +43,61 @@ const Upload = () => {
         }
       );
       setUploadMessage(`File uploaded successfully: ${response.data.fileName}`);
-      // console.log("Upload successful:", response.data.fileName);
+
       setIsClearEnabled(true);
     } catch (error) {
       setUploadMessage(`Error uploading file: ${error.message}`);
-      // console.error("Upload error:", error.message);
     } finally {
       setIsLoading(false);
-      // console.log("Upload finished");
     }
   };
 
   const handleClear = () => {
     setSelectedFile(null);
+    setTypeId("");
     setUploadMessage("");
     setIsClearEnabled(false);
   };
 
   return (
     <div className="p-4 flex flex-col justify-center items-center gap-4">
-      <form onSubmit={handleUpload} className="flex flex-col items-center">
-        <input
-          type="file"
-          onChange={handleFileChange}
-          className="border-2 border-gray-300 p-2 mb-4"
-          disabled={isLoading}
-        />
-        <button
-          type="submit"
-          className="border-2 bg-blue-500 text-white p-2"
-          disabled={isLoading}
-        >
-          {isLoading ? "Uploading..." : "Upload File"}
-        </button>
+      <form
+        onSubmit={handleUpload}
+        className="flex flex-col gap-4 items-center"
+      >
+        <div className="flex gap-4  items-center">
+          <input
+            type="text"
+            placeholder="Enter Type ID"
+            value={typeId}
+            onChange={handleTypeIdChange}
+            className="border-2 border-gray-300 p-2 mb-4"
+            disabled={isLoading}
+          />
+          <input
+            type="file"
+            onChange={handleFileChange}
+            className="border-2 border-gray-300 p-2 mb-4"
+            disabled={isLoading}
+          />
+        </div>
+
+        <div className="flex gap-4  items-center">
+          <button
+            type="submit"
+            className="border-2 bg-blue-500 text-white p-2"
+            disabled={isLoading}
+          >
+            {isLoading ? "Uploading..." : "Upload File"}
+          </button>
+          <button
+            onClick={handleClear}
+            className={`border-2 text-white p-2  ${isClearEnabled ? "bg-red-500" : "bg-gray-500"}`}
+            disabled={!isClearEnabled}
+          >
+            Clear
+          </button>
+        </div>
       </form>
       {isLoading && (
         <div className="mt-4 ">
@@ -87,14 +113,6 @@ const Upload = () => {
         </div>
       )}
       {uploadMessage && <p className="mt-4 text-green-500">{uploadMessage}</p>}
-
-      <button
-        onClick={handleClear}
-        className={`border-2 text-white p-2 mt-4 ${isClearEnabled ? "bg-red-500" : "bg-gray-500"}`}
-        disabled={!isClearEnabled}
-      >
-        Clear
-      </button>
     </div>
   );
 };
