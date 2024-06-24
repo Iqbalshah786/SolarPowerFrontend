@@ -1,9 +1,12 @@
 const DocumentTable = ({ metadata }) => {
   return metadata ? (
-    <div className="relative overflow-x-auto mt-10 rounded max-h-96 overflow-y-auto">
+    <div className="relative overflow-x-auto mt-10 rounded max-h-96 overflow-y-auto scroll-smooth">
       <table className="w-full  text-base  text-left  text-gray-200">
         <thead className="  uppercase  dark:bg-gray-700 ">
           <tr className="bg-[#374151] ">
+            <th scope="col" className="px-6 py-3">
+              Document Text
+            </th>
             <th scope="col" className="px-6 py-3">
               Tags
             </th>
@@ -24,6 +27,9 @@ const DocumentTable = ({ metadata }) => {
               className="bg-[#1f2937] border-b   text-gray-200"
               key={record.id}
             >
+              <td className="px-6 py-4">
+                {record.document ? record.document : "Not available"}
+              </td>
               <td className="px-6 py-4">
                 {record.tags ? record.tags : "Not available"}
               </td>

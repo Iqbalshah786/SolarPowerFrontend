@@ -37,7 +37,7 @@ const DocumentForm = () => {
     <div className="flex flex-col items-center mt-10  w-1/2">
       <h2 className="text-2xl mb-6">Add Document</h2>
       <form onSubmit={handleSubmit} className=" w-full ">
-        <div className="mb-4 flex gap-4 items-center">
+        <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Document:
           </label>
@@ -47,7 +47,18 @@ const DocumentForm = () => {
             onChange={(e) => setDocument(e.target.value)}
             required
           />
-
+        </div>
+        <div className="mb-4 flex gap-4 items-center">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Comments:
+          </label>
+          <input
+            type="text"
+            className="shadow appearance-none border rounded w-full h-16 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            value={comments}
+            onChange={(e) => setComments(e.target.value)}
+            required
+          />
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Tags:
           </label>
@@ -60,17 +71,6 @@ const DocumentForm = () => {
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            Comments:
-          </label>
-          <textarea
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            value={comments}
-            onChange={(e) => setComments(e.target.value)}
-            required
-          />
-        </div>
         <div className="w-1/2 flex items-center gap-4">
           <button
             type="submit"
