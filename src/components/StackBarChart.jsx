@@ -32,7 +32,7 @@ const StackBarChart = ({ id }) => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/ReadExcelData/${id}`
+          `https://solarpower-backend-2f0d59f7581f.herokuapp.com/sheetmetadata/ReadExcelData/${id}`
         );
         setData(response.data);
         setSelectedCountry(response.data.countries.split(",")[0]); // Set the initial country

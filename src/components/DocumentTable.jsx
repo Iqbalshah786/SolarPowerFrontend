@@ -15,7 +15,7 @@ const DocumentTable = ({ metadata, onFormSubmit }) => {
     setCurrentRecord({});
   };
 
-  return metadata ? (
+  return metadata && metadata.length > 0 ? (
     <div className="relative overflow-x-auto mt-10 rounded max-h-96 overflow-y-auto scroll-smooth">
       <table className="w-full text-base text-left text-gray-200">
         <thead className="uppercase dark:bg-gray-700">

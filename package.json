@@ -13,13 +13,16 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "date-fns": "^3.6.0",
+    "difflib": "^0.2.4",
+    "fuse.js": "^7.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-loader-spinner": "^6.1.6",
     "react-router-dom": "^6.23.1",
     "react-select": "^5.8.0",
-    "react-spinners": "^0.13.8"
+    "react-spinners": "^0.13.8",
+    "string-similarity": "^4.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",
