@@ -35,7 +35,7 @@ const Upload = () => {
 
     try {
       const response = await axios.post(
-        "https://solarpower-backend-2f0d59f7581f.herokuapp.com/api/sheetmetadata/UploadExcel",
+        "/api/sheetmetadata/UploadExcel",
         formData,
         {
           headers: {
@@ -78,6 +78,7 @@ const Upload = () => {
             </option>
             <option value="Capacity">Capacity</option>
             <option value="Segment">Segment</option>
+            <option value="CapacityScenario">Capacity Scenario</option>
           </select>
           <input
             type="file"
