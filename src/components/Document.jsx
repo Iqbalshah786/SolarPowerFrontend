@@ -117,10 +117,10 @@ function Document() {
         </button>
         <button
         onClick={handleViewAll}
-        className="text-white p-2 pl-4 pr-4 rounded"
-        style={{background:"red",visibility:searchText==""?"hidden":"inherit"}}
+        className="bg-sucess text-white p-2 pl-4 pr-4 rounded"
+        style={{background:"green"}}
         >
-          <strong>x</strong>
+          <strong>View All</strong>
         </button>
       </div>
       {isLoading && (

@@ -15,9 +15,6 @@ const DocumentTable = ({ metadata, onEditClick }) => {
                 <th scope="col" className="px-4 py-3 w-[10%] ">
                   Comments
                 </th>
-                <th scope="col" className="px-4 py-3 w-[5%]">
-                  Edit
-                </th>
                 <th scope="col" className="px-4 py-3 w-[10%]">
                   View Content
                 </th>
@@ -40,14 +37,9 @@ const DocumentTable = ({ metadata, onEditClick }) => {
                   </td>
                   <td className="px-6 py-4 ">
                     <button
-                      className="text-blue-500"
-                      onClick={() => onEditClick(record)}
+                    className="rounded py-1 px-2 text-base text-white bg-blue-500"
+                    onClick={() => onEditClick(record)}
                     >
-                      Edit
-                    </button>
-                  </td>
-                  <td className="px-6 py-4 ">
-                    <button className="rounded py-1 px-2 text-base text-white bg-blue-500">
                       View content
                     </button>
                   </td>
