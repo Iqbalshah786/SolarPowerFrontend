@@ -26,13 +26,11 @@ ChartJS.register(
 );
 
 const LineChart = ({ id }) => {
-  const [sheetData, setSheetData] = useState([]);
+  const [sheetData, setSheetData] = useState({});
   const [noRecordFound, setNoRecordFound] = useState(false);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedCountries, setSelectedCountries] = useState([]);
-  const [startYear, setStartYear] = useState("");
-  const [endYear, setEndYear] = useState("");
+  const [selectedCountry, setSelectedCountry] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,18 +45,12 @@ const LineChart = ({ id }) => {
         if (response.data && Object.keys(response.data).length > 0) {
           const data = response.data;
           setSheetData(data);
-          console.log(data);
 
-          const initialCountries = data.datasets.slice(0, 5).map((dataset) => ({
-            value: dataset.label,
-            label: dataset.label,
-          }));
+          const initialCountry = data.countries.split(",")[0];
 
-          setSelectedCountries(initialCountries);
-          setStartYear(data.years.split(",")[0]);
-          setEndYear(data.years.split(",").slice(-1)[0]);
+          setSelectedCountry({ value: initialCountry, label: initialCountry });
         } else {
-          setSheetData([]);
+          setSheetData({});
           setNoRecordFound(true);
         }
       } catch (error) {
@@ -68,18 +60,10 @@ const LineChart = ({ id }) => {
       }
     };
     fetchData();
-  }, []);
+  }, [id]);
 
-  const handleCountryChange = (selectedOptions) => {
-    setSelectedCountries(selectedOptions);
-  };
-
-  const handleStartYearChange = (selectedOption) => {
-    setStartYear(selectedOption.value);
-  };
-
-  const handleEndYearChange = (selectedOption) => {
-    setEndYear(selectedOption.value);
+  const handleCountryChange = (selectedOption) => {
+    setSelectedCountry(selectedOption);
   };
 
   return (
@@ -103,47 +87,22 @@ const LineChart = ({ id }) => {
       {sheetData.datasets && sheetData.datasets.length > 0 && (
         <>
           <Select
-            isMulti
-            options={sheetData.datasets.map((dataset) => ({
-              value: dataset.label,
-              label: dataset.label,
+            options={sheetData.countries.split(",").map((country) => ({
+              value: country,
+              label: country,
             }))}
-            value={selectedCountries}
+            value={selectedCountry}
             onChange={handleCountryChange}
             className="w-full max-w-xl mt-4"
           />
 
-          <div className="flex gap-4 w-full max-w-xl mt-4">
-            <Select
-              options={sheetData.years.split(",").map((year) => ({
-                value: year,
-                label: year,
-              }))}
-              value={{ value: startYear, label: startYear }}
-              onChange={handleStartYearChange}
-              className="w-full"
-            />
-            <Select
-              options={sheetData.years.split(",").map((year) => ({
-                value: year,
-                label: year,
-              }))}
-              value={{ value: endYear, label: endYear }}
-              onChange={handleEndYearChange}
-              className="w-full"
-            />
-          </div>
-
           <div className="w-[1000px]">
-            <Line
-              data={getChartData(
-                sheetData,
-                selectedCountries,
-                startYear,
-                endYear
-              )}
-              className="w-full max-w-4xl mt-4"
-            />
+            {selectedCountry && (
+              <Line
+                data={getChartData(sheetData, selectedCountry.value)}
+                className="w-full max-w-4xl mt-4"
+              />
+            )}
           </div>
         </>
       )}
